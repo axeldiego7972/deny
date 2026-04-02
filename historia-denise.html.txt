@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Historia de Denise y Sosa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --warm: #f5e6d0;
+    --brown: #7a5c3e;
+    --dark: #2e1f0f;
+    --accent: #c47c4a;
+    --soft: #e8cba5;
+    --ink: #3d2b1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lato', sans-serif;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(180,140,90,0.07) 28px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .book {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 0 24px 80px;
+  }
+
+  /* ── PORTADA ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border: 1.5px solid var(--soft);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .cover-tag {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .cover-pre {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--brown);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.45s forwards;
+  }
+  .cover-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--brown);
+    margin-bottom: 36px;
+    max-width: 460px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .cover-divider {
+    width: 60px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin: 0 auto 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+  .cover-photo-box {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--warm);
+    border: 3px dashed var(--soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .cover-photo-box .photo-icon { font-size: 2.2rem; margin-bottom: 6px; }
+  .cover-photo-box .photo-label { font-family: 'Dancing Script', cursive; font-size: 0.9rem; color: var(--brown); padding: 0 14px; text-align: center; }
+  .cover-date {
+    font-size: 0.82rem;
+    color: var(--brown);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 64px 0 36px; border-bottom: 1px solid var(--soft); }
+
+  .section-num {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: var(--soft);
+    line-height: 1;
+    display: block;
+    margin-bottom: -8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 26px;
+    display: block;
+  }
+
+  /* PROSE */
+  p.prose {
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.95;
+    margin-bottom: 18px;
+  }
+  p.prose em { font-style: italic; color: var(--brown); }
+
+  /* HIGHLIGHT LINE — frases cortas importantes */
+  .hl {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.08rem;
+    color: var(--accent);
+    display: block;
+    margin: 8px 0 18px;
+  }
+
+  /* PHOTO PLACEHOLDER */
+  .photo-slot {
+    background: var(--warm);
+    border: 2px dashed var(--soft);
+    border-radius: 10px;
+    padding: 26px 20px;
+    text-align: center;
+    margin: 28px 0;
+  }
+  .photo-slot .photo-icon { font-size: 1.9rem; display: block; margin-bottom: 8px; }
+  .photo-slot .photo-main { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--dark); margin-bottom: 5px; }
+  .photo-slot .photo-desc { font-size: 0.8rem; color: var(--brown); }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    border-left: 3px solid var(--accent);
+    padding: 14px 22px;
+    margin: 28px 0;
+    background: rgba(196,124,74,0.05);
+    border-radius: 0 8px 8px 0;
+    position: relative;
+  }
+  .quote-block::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    color: var(--soft);
+    position: absolute;
+    top: -8px; left: 10px;
+    line-height: 1;
+  }
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.08rem;
+    color: var(--dark);
+    padding-left: 18px;
+    line-height: 1.75;
+  }
+
+  /* DARK REFLECTION BOX */
+  .reflection {
+    background: var(--dark);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 30px 26px;
+    margin: 32px 0;
+    text-align: center;
+  }
+  .reflection .r-icon { font-size: 1.6rem; display: block; margin-bottom: 12px; }
+  .reflection .r-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: #fdf6ee;
+  }
+
+  /* DATE BADGE */
+  .date-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+  }
+
+  /* MEMORY CARDS */
+  .memory-card {
+    background: var(--warm);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    border-left: 4px solid var(--accent);
+  }
+  .memory-card .mc-icon { font-size: 1.3rem; margin-bottom: 6px; display: block; }
+  .memory-card .mc-text { font-size: 0.97rem; color: var(--ink); line-height: 1.8; }
+
+  /* CLOSING */
+  .closing {
+    text-align: center;
+    padding: 80px 10px 40px;
+  }
+  .closing .c-deco { font-size: 2rem; display: block; margin-bottom: 20px; }
+  .closing .c-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 28px;
+  }
+  .closing .c-prose {
+    font-size: 1rem;
+    color: var(--brown);
+    line-height: 2;
+    max-width: 520px;
+    margin: 0 auto 14px;
+  }
+  .closing .c-prose strong { color: var(--dark); font-weight: 700; }
+  .closing .c-sign {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.6rem;
+    color: var(--accent);
+    margin-top: 28px;
+    display: block;
+  }
+  .closing .c-att {
+    font-size: 0.82rem;
+    color: var(--brown);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .book-footer {
+    text-align: center;
+    padding: 30px 0 10px;
+    font-size: 0.75rem;
+    color: var(--soft);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="book">
+
+  <!-- ═══ PORTADA ═══ -->
+  <div class="cover">
+    <span class="cover-tag">✦ una historia que vale la pena contar ✦</span>
+    <p class="cover-pre">La historia de</p>
+    <h1 class="cover-title">Denise y yo</h1>
+    <p class="cover-subtitle">o cómo alguien se vuelve parte importante de tu vida sin que te des cuenta</p>
+    <div class="cover-divider"></div>
+    <span class="cover-date">7 de marzo de 2023 — hasta hoy</span>
+  </div>
+
+
+  <!-- ═══ INTRODUCCIÓN ═══ -->
+  <div class="section">
+    <span class="section-num">✦</span>
+    <h2 class="section-title">Introducción</h2>
+    <span class="section-sub">antes de empezar a contar</span>
+
+    <p class="prose">
+      Hay personas que llegan a tu vida sin avisar… y cuando te das cuenta, ya no puedes imaginar tus días sin ellas.
+    </p>
+    <p class="prose">
+      Tú eres una de esas personas.
+    </p>
+    <p class="prose">
+      No sé en qué momento pasaste de ser alguien que apenas conocía… a alguien que se volvió parte importante de mi vida. Pero pasó, y eso es lo que hace que esta historia valga la pena.
+    </p>
+  </div>
+
+
+  <!-- ═══ EL INICIO ═══ -->
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">El inicio</h2>
+    <span class="section-sub">el día que ni los dos tomamos en serio</span>
+
+    <span class="date-badge">7 de marzo de 2023</span>
+
+    <p class="prose">
+      Todo empezó el 7 de marzo del 2023.
+    </p>
+    <p class="prose">
+      Ese día tú solo te acercaste a preguntarme algo sobre Axel… algo simple, algo que en ese momento parecía sin importancia. Pero de la nada, empecé a hablarte como si ya te conociera de toda la vida.
+    </p>
+
+    <span class="hl">Y lo raro es que funcionó.</span>
+
+    <p class="prose">
+      Conectamos tan bien que empezamos a hablar todos los días, como si siempre hubiera sido así.
+    </p>
+
+   <img src="deny.jpeg" style="width:100%; border-radius:10px; margin:28px 0;">
+
+  <!-- ═══ CUANDO TODO TOMÓ FORMA ═══ -->
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Cuando todo empezó a tomar forma</h2>
+    <span class="section-sub">del 20 de marzo en adelante</span>
+
+    <span class="date-badge">20 de marzo de 2023</span>
+
+    <p class="prose">
+      El 20 de marzo, sin pensarlo mucho, te empecé a contar cosas personales… como quién me gustaba y todo eso.
+    </p>
+    <p class="prose">
+      Y ahí, sin darnos cuenta, empezó algo más fuerte:
+    </p>
+
+    <span class="hl">nuestra amistad.</span>
+
+    <p class="prose">
+      Con el tiempo, pasamos por muchas cosas. Estuvimos el uno para el otro en momentos buenos y también en los peores.
+    </p>
+    <p class="prose">
+      Y aunque no todo fue perfecto… siempre encontramos la forma de seguir.
+    </p>
+  </div>
+
+
+  <!-- ═══ MOMENTOS DIFÍCILES ═══ -->
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Momentos difíciles</h2>
+    <span class="section-sub">porque las amistades reales también tienen sus grietas</span>
+
+    <p class="prose">
+      Hubo errores, momentos de los que me arrepiento, situaciones que no supe manejar bien.
+    </p>
+    <p class="prose">
+      También hubo veces en las que nos dejamos de hablar, como cuando te dijeron cosas que no eran ciertas… y eso hizo que todo cambiara por un tiempo.
+    </p>
+
+    <div class="quote-block">
+      <p class="quote-text">Pero si algo siempre tuvimos fue esto: supimos hablar las cosas. Supimos arreglar nuestras diferencias, incluso cuando parecía complicado. Y eso… no cualquiera lo tiene.</p>
+    </div>
+
+  </div>
+
+
+  <!-- ═══ LO QUE VIVIMOS ═══ -->
+  <div class="section">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Lo que vivimos</h2>
+    <span class="section-sub">cosas pequeñas que se quedan para siempre</span>
+
+    <p class="prose">
+      Hemos vivido muchos momentos que, aunque parezcan simples, significan mucho.
+    </p>
+
+    <div class="memory-card">
+      <span class="mc-icon">🌳</span>
+      <p class="mc-text">Como cuando fuimos al Naucali… y estaba cerrado, así que terminamos en otro parque jugando voleibol.</p>
+    </div>
+
+    <div class="memory-card">
+      <span class="mc-icon">☕</span>
+      <p class="mc-text">O cuando fuimos a Starbucks y no sabíamos ni qué pedir.</p>
+    </div>
+
+    <div class="memory-card">
+      <span class="mc-icon">🏐</span>
+      <p class="mc-text">O cuando fuiste a verme a mi partido de voleibol… aunque te aburriste porque el profe tardó como 40 minutos en llegar.</p>
+    </div>
+
+    <span class="hl">Son cosas pequeñas… pero que se quedan.</span>
+  </div>
+
+
+  <!-- ═══ LO QUE HAS SIGNIFICADO ═══ -->
+  <div class="section">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Lo que has significado para mí</h2>
+    <span class="section-sub">lo que no siempre se dice, pero siempre se siente</span>
+
+    <p class="prose">
+      Si soy honesto… has estado en momentos donde realmente lo necesitaba.
+    </p>
+    <p class="prose">
+      Como cuando pasé por cosas difíciles y no sabía controlar mis emociones… tú estuviste ahí.
+    </p>
+    <span class="hl">Y eso no se olvida.</span>
+
+    <div class="reflection">
+      <span class="r-icon">✦</span>
+      <p class="r-text">Eres una persona increíble. De esas que, cuando se proponen algo, sabes que lo van a lograr. Te admiro mucho… por lo que eres, por lo que haces, y por cómo siempre has estado para mí.</p>
+    </div>
+
+    <p class="prose">
+      A veces no lo digo tanto como debería… pero lo valoro.
+    </p>
+  </div>
+
+
+  <!-- ═══ CAMINOS DIFERENTES ═══ -->
+  <div class="section">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Caminos diferentes, pero no separados</h2>
+    <span class="section-sub">la prepa y todo lo que vino con ella</span>
+
+    <p class="prose">
+      Entramos a una nueva etapa: la prepa.
+    </p>
+    <p class="prose">
+      No nos quedamos donde queríamos, pero aun así seguimos.
+    </p>
+    <p class="prose">
+      Yo en el Cerretis… tú primero en la EPO, donde la pasaste muy bien… y ahora en Bacho, donde sé que a veces se complica.
+    </p>
+
+    <div class="quote-block">
+      <p class="quote-text">Porque te conozco. Sé que te cuesta socializar, sé cómo te sientes a veces… y créeme, si pudiera, estaría ahí contigo todos los días para que no te sintieras así.</p>
+    </div>
+
+    <span class="hl">Pero aun así, aquí seguimos.</span>
+  </div>
+
+
+  <!-- ═══ LO QUE NO TE DIGO ═══ -->
+  <div class="section">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Lo que no te digo tanto</h2>
+    <span class="section-sub">algunas cosas no necesitan explicarse… solo sentirse</span>
+
+    <p class="prose">
+      A veces hay cosas que no se dicen tan fácil.
+    </p>
+    <p class="prose">
+      Pero hay personas que se vuelven tan importantes… que simplemente no quieres que se vayan.
+    </p>
+
+    <span class="hl">Y tú eres una de ellas.</span>
+
+    <div class="reflection">
+      <span class="r-icon">🌿</span>
+      <p class="r-text">Eres única. Eres especial. Y aunque suene simple… no hay nadie como tú.</p>
+    </div>
+  </div>
+
+
+  <!-- ═══ ACTUALIDAD ═══ -->
+  <div class="section">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Actualidad</h2>
+    <span class="section-sub">2023 → 2025 → 2026 · y aquí seguimos</span>
+
+    <p class="prose">
+      Y míranos ahora…
+    </p>
+    <p class="prose">
+      Empezamos en 2023, y ahora ya estamos en 2025… 2026. El tiempo pasó rápido, pero aquí seguimos, con todo lo que hemos vivido.
+    </p>
+    <p class="prose">
+      Con errores, con recuerdos, con todo lo que nos ha hecho llegar hasta aquí.
+    </p>
+  </div>
+
+
+  <!-- ═══ CIERRE ═══ -->
+  <div class="closing">
+    <span class="c-deco">✦</span>
+    <h2 class="c-title">Esto no termina aquí</h2>
+
+    <p class="c-prose">No sé qué pase más adelante.<br>Pero sí sé esto:</p>
+    <p class="c-prose"><strong>Gracias por estar conmigo.<br>Gracias por no irte.<br>Gracias por todo.</strong></p>
+    <p class="c-prose">Te quiero mucho, Deny.<br>Y aunque no siempre lo diga de la mejor forma…<br>eres alguien que realmente valoro.</p>
+
+    <span class="c-sign">Deny 🤍</span>
+    <p class="c-att">ATT: Sosa</p>
+  </div>
+
+  <div class="book-footer">✦ · una historia escrita desde adentro · ✦</div>
+
+</div>
+</body>
+</html>
